@@ -1,11 +1,10 @@
+"use client";
 import React from 'react';
-import { useState } from 'react';
 import Order from '@/components/order';
-import { time } from 'console';
 
 const orderData=[
   {
-    id: 1,
+    orderId: 1,
     table: 1,
     status: "Pending",
     time: new Date().toString(),
@@ -16,7 +15,7 @@ const orderData=[
     ],
   },
   {
-    id: 2,
+    orderId: 2,
     table: 2,
     status: "Pending",
     time: new Date().toString(),
@@ -27,7 +26,7 @@ const orderData=[
     ],
   },
   {
-    id: 3,
+    orderId: 3,
     table: 3,
     status: "Completed",
     time: new Date().toString(),
@@ -49,7 +48,7 @@ export default function Home() {
           <div className="w-full max-w-md">
             {orderData.map((order) => (
               <Order
-                key={order.id}
+                orderId={order.orderId}
                 table={order.table}
                 status={order.status}
                 time={order.time}
