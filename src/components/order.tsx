@@ -17,7 +17,6 @@ export default function Order({ orderId, table, status, time, comment, items }: 
 
     return (
         <div className="bg-white shadow-md rounded-lg p-6 mb-4 border border-gray-200 text-gray-800">
-            {/* Header row with toggle button and summary */}
             <div className="flex items-start">
                 <button
                     onClick={toggleDetails}
@@ -41,7 +40,6 @@ export default function Order({ orderId, table, status, time, comment, items }: 
                 </div>
             </div>
 
-            {/* Expandable details section */}
             {expanded && (
                 <div className="mt-4 pl-10">
                     <h2>Price: ${totalPrice}</h2>
