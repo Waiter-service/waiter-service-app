@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { useState } from "react";
 
 interface OrderProps {
     orderId: number;
@@ -11,12 +11,44 @@ interface OrderProps {
 
 export default function Order({ orderId, table, status, time, comment, items }: OrderProps) {
     const [expanded, setExpanded] = useState(false);
+    const [touchStartX, setTouchStartX] = useState<number | null>(null);
+    const [touchEndX, setTouchEndX] = useState<number | null>(null);
+
     const totalPrice = items.reduce((sum, item) => sum + item.quantity * item.price, 0);
 
     const toggleDetails = () => setExpanded(prev => !prev);
 
+    const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+        setTouchStartX(e.touches[0].clientX);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+        setTouchEndX(e.touches[0].clientX);
+    };
+
+    const handleTouchEnd = () => {
+        if (touchStartX !== null && touchEndX !== null) {
+            const distance = touchEndX - touchStartX;
+            if (distance > 50) {
+                // Swiped right
+                alert(`Accept order #${orderId}?`);
+            } else if (distance < -50) {
+                // Swiped left
+                alert(`Cancel order #${orderId}?`);
+            }
+        }
+
+        setTouchStartX(null);
+        setTouchEndX(null);
+    };
+
     return (
-        <div className="bg-white shadow-md rounded-lg p-6 mb-4 border border-gray-200 text-gray-800">
+        <div
+            className="bg-white shadow-md rounded-lg p-6 mb-4 border border-gray-200 text-gray-800"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+        >
             <div className="flex items-start">
                 <button
                     onClick={toggleDetails}
