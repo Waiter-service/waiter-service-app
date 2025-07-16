@@ -1,155 +1,119 @@
 "use client";
-import React from 'react';
-import Order from '@/components/order';
-import Image from "next/image";
-import coffeeBarLayout from "@/assets/images/cafe-floor-plan.png";
+import useOrders from "@/hooks/useOrders";
+import { useBarData } from "@/queries/hooks/useGetBarData";
+import { usePatchOrderSeenStatus } from "@/queries/hooks/usePatchOrderSeenStatus";
+import { cn } from "@/utils/misc/cn/cn";
+import { connectSocket } from "@/utils/socket/socket";
+import { useState } from "react";
 
-const orderData=[
-  {
-    orderId: 1,
-    table: 1,
-    status: "Pending",
-    time: new Date().toString(),
-    comment: "Please serve quickly",
-    items: [
-      { id: 1, name: "Item 1", quantity: 2, price: 10.0 },
-      { id: 2, name: "Item 2", quantity: 1, price: 15.0 },
-    ],
-  },
-  {
-    orderId: 2,
-    table: 2,
-    status: "Pending",
-    time: new Date().toString(),
-    comment: "Extra spicy",
-    items: [
-      { id: 3, name: "Item 3", quantity: 1, price: 20.0 },
-      { id: 4, name: "Item 4", quantity: 3, price: 5.0 },
-    ],
-  },
-  {
-    orderId: 3,
-    table: 3,
-    status: "Completed",
-    time: new Date().toString(),
-    comment: "No comments",
-    items: [
-      { id: 5, name: "Item 5", quantity: 2, price: 30.0 },
-      { id: 6, name: "Item 6", quantity: 1, price: 25.0 },
-    ],
-  },
-  {
-    orderId: 4,
-    table: 4,
-    status: "In Progress",
-    time: new Date().toString(),
-    comment: "Please check the order",
-    items: [
-      { id: 7, name: "Item 7", quantity: 1, price: 12.0 },
-      { id: 8, name: "Item 8", quantity: 2, price: 18.0 },
-    ],
-  },
-  {
-    orderId: 5,
-    table: 5,
-    status: "Pending",
-    time: new Date().toString(),
-    comment: "No special requests",
-    items: [
-      { id: 9, name: "Item 9", quantity: 1, price: 22.0 },
-      { id: 10, name: "Item 10", quantity: 2, price: 8.0 },
-    ],
-  },
-  {
-    orderId: 6,
-    table: 6,
-    status: "Completed",
-    time: new Date().toString(),
-    comment: "Great service!",
-    items: [
-      { id: 11, name: "Item 11", quantity: 3, price: 14.0 },
-      { id: 12, name: "Item 12", quantity: 1, price: 9.0 },
-    ],
-  },
-  {
-    orderId: 7,
-    table: 7,
-    status: "In Progress",
-    time: new Date().toString(),
-    comment: "Please hurry up",
-    items: [
-      { id: 13, name: "Item 13", quantity: 2, price: 11.0 },
-      { id: 14, name: "Item 14", quantity: 1, price: 17.0 },
-    ],
-  },
-  {
-    orderId: 8,
-    table: 8,
-    status: "Pending",
-    time: new Date().toString(),
-    comment: "No comments",
-    items: [
-      { id: 15, name: "Item 15", quantity: 1, price: 19.0 },
-      { id: 16, name: "Item 16", quantity: 2, price: 6.0 },
-    ],
-  },
-  {
-    orderId: 9,
-    table: 9,
-    status: "Completed",
-    time: new Date().toString(),
-    comment: "Everything was perfect",
-    items: [
-      { id: 17, name: "Item 17", quantity: 2, price: 13.0 },
-      { id: 18, name: "Item 18", quantity: 1, price: 21.0 },
-    ],
-  },
-  {
-    orderId: 10,
-    table: 10,
-    status: "In Progress",
-    time: new Date().toString(),
-    comment: "Please check the order",
-    items: [
-      { id: 19, name: "Item 19", quantity: 1, price: 15.0 },
-      { id: 20, name: "Item 20", quantity: 2, price: 10.0 },
-    ],
-  },
-]
 export default function Home() {
-  return (
-    <div className="flex w-full min-h-screen bg-gray-100">
-      <div className="fixed h-screen w-[65%] overflow-hidden">
-        <div className="relative w-full h-full">
-          <Image
-            src={coffeeBarLayout}
-            alt="Restaurant Layout"
-            objectFit="cover"
-            className="w-full h-full"
-            quality={100}
-            priority
-          />
-        </div>
-      </div>
+  connectSocket();
 
-      <div className="ml-[65%] w-[35%]">
-        <div className="flex flex-col items-center py-10">
-          <h1 className="text-2xl font-bold mb-4 text-gray-800">Orders</h1>
-          <div className="w-full max-w-md">
-            {orderData.map((order) => (
-              <Order
-                key={order.orderId}
-                orderId={order.orderId}
-                table={order.table}
-                status={order.status}
-                time={order.time}
-                comment={order.comment}
-                items={order.items}
-              />
+  const orders = useOrders();
+  const { data: barData } = useBarData(1);
+
+  const ordersByTableId = orders.reduce<Record<number, (typeof orders)[0][]>>(
+    (acc, order) => {
+      if (!acc[order.tableId]) {
+        acc[order.tableId] = [];
+      }
+      acc[order.tableId].push(order);
+      return acc;
+    },
+    {}
+  );
+
+  const ordersArray = Object.values(ordersByTableId);
+
+  return (
+    <div className="max-w-[1440px] ml-auto mr-auto w-[100vw] h-[100vh] flex">
+      <div className="w-[70%]"></div>
+      <div className="flex flex-col items-center justify-start h-full ove w-[30%] py-[40px]">
+        {ordersArray.length > 0 ? (
+          <div className="space-y-4 w-full">
+            {ordersArray.map((order) => (
+              <div
+                key={order[0].tableId}
+                className="border border-neutral-800 p-4 rounded-lg shadow-md bg-neutral-900"
+              >
+                <h2 className="text-xl font-semibold">
+                  Stol: {order[0].tableId}
+                </h2>
+                {order.map((item) => (
+                  <OrderView key={item.id} order={item} barData={barData} />
+                ))}
+              </div>
             ))}
           </div>
-        </div>
+        ) : (
+          <p>No orders available.</p>
+        )}
       </div>
     </div>
   );
 }
+
+const OrderView = ({
+  order,
+  barData,
+}: {
+  order: {
+    id: number;
+    tableId: number;
+    status: string;
+    barId: number;
+    comment: string | null;
+    date: string;
+    total: number;
+    OrderArticle: {
+      articleId: number;
+      quantity: number;
+    }[];
+  };
+  barData: any;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const { mutate } = usePatchOrderSeenStatus();
+
+  const handleViewClick = () => {
+    setIsOpen(!isOpen);
+
+    if (!isOpen && order.status === "PENDING") {
+      mutate(order.id);
+    }
+  };
+
+  return (
+    <div className="space-y-4 w-full">
+      <div
+        key={order.id}
+        className={cn(
+          "border border-neutral-800 p-4 rounded-lg shadow-md bg-neutral-900 mt-[10px]",
+          order.status === "PENDING" && "bg-neutral-700"
+        )}
+        onClick={handleViewClick}
+      >
+        <p>Ukupno: {order.total.toFixed(2) + " €"}</p>
+        <p>Status: {order.status === "PENDING" ? "Zaprimljeno" : "Videno"}</p>
+        <div
+          className={cn(
+            "transition-all duration-300 overflow-hidden",
+            !isOpen ? "max-h-0 opacity-0" : "max-h-[500px] opacity-100"
+          )}
+        >
+          <p className="text-sm">Kommentar: {order.comment || ""}</p>
+          <ul className="list-disc list-inside mt-2">
+            {order.OrderArticle.map((article) => (
+              <li key={article.articleId}>
+                {barData?.articles.find(
+                  (a: { id: number }) => a.id === article.articleId
+                )?.title || ""}{" "}
+                Kolicina: {article.quantity}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+};

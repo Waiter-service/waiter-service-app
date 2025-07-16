@@ -1,1 +1,0 @@
-export {default as coffeeBarLayout} from "./cafe-floor-plan.png";
