@@ -1,12 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { patchOrderSeenStatus } from "../patchOrderSeenStatus";
 
-export const usePatchOrderSeenStatus = () => {
+export const usePatchOrderSeenStatus = (accessToken?: string) => {
   return useMutation({
-    mutationFn: patchOrderSeenStatus,
-    onSuccess: (data) => {
-      console.log("Order seen status updated successfully:", data);
-    },
+    mutationFn: (orderId: number) => patchOrderSeenStatus(orderId, accessToken),
+    onSuccess: (data) => {},
     onError: (error) => {
       console.error("Error updating order seen status:", error);
     },

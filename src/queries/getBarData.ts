@@ -2,28 +2,34 @@ import { waiterServiceApi } from ".";
 import { z } from "zod";
 
 const BarDataSchema = z.object({
+  id: z.number(),
   name: z.string(),
   image: z.string().nullable(),
-  location: z.string().nullable(),
-  description: z.string().nullable(),
   logo: z.string().nullable(),
-  openingTime: z.string().nullable(),
-  closingTime: z.string().nullable(),
+  savingOrderHistory: z.boolean(),
   articles: z.array(
     z.object({
       id: z.number(),
-      category: z.string().nullable(),
       title: z.string(),
-      content: z.string(),
-      price: z.number(),
-      image: z.string().nullable(),
-      status: z.string(),
+    })
+  ),
+  tables: z.array(
+    z.object({
+      id: z.number(),
+      number: z.number(),
+      width: z.number(),
+      positionX: z.number(),
+      positionY: z.number(),
     })
   ),
 });
 
-export const getBarData = async (barId: number) => {
-  const res = await waiterServiceApi.get(`/bar/${barId}`);
+export const getBarData = async (barId: number, accessToken?: string) => {
+  const headers = accessToken
+    ? { Authorization: `Bearer ${accessToken}` }
+    : undefined;
+
+  const res = await waiterServiceApi.get(`/bar/waiter/${barId}`, { headers });
 
   return BarDataSchema.parse(res.data);
 };
