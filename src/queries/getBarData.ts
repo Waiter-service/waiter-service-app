@@ -25,6 +25,7 @@ const BarDataSchema = z.object({
 });
 
 export const getBarData = async (barId: number, accessToken?: string) => {
+  console.log(accessToken);
   const headers = accessToken
     ? { Authorization: `Bearer ${accessToken}` }
     : undefined;

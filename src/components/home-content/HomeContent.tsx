@@ -1,12 +1,14 @@
-'use client';
+"use client";
 import useOrders from "@/hooks/useOrders";
 import { useBarData } from "@/queries/hooks/useGetBarData";
 import { cn } from "@/utils/misc/cn/cn";
 import OrderList from "../order-list";
+import { useUser } from "@/providers/user-provider";
 
 const HomeContent = () => {
-  const orders = useOrders();
-  const { data: barData } = useBarData(1);
+  const { user } = useUser();
+  const orders = useOrders(user.sub);
+  const { data: barData } = useBarData(user.sub, user.accessToken ?? "");
 
   return (
     <div className="max-w-[1440px] ml-auto mr-auto w-[100vw] h-[100vh] flex p-[40px] gap-[20px]">

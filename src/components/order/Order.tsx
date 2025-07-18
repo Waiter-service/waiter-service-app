@@ -1,3 +1,4 @@
+import { useUser } from "@/providers/user-provider";
 import { usePatchOrderSeenStatus } from "@/queries/hooks/usePatchOrderSeenStatus";
 import { cn } from "@/utils/misc/cn/cn";
 import { useState } from "react";
@@ -22,7 +23,8 @@ const Order = ({
   barData: any;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { mutate } = usePatchOrderSeenStatus();
+  const { user } = useUser();
+  const { mutate } = usePatchOrderSeenStatus(user.accessToken ?? "");
 
   const handleViewClick = () => {
     setIsOpen(!isOpen);

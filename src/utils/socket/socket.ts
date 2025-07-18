@@ -4,14 +4,14 @@ const socket: Socket = io("http://localhost:3000"); // Replace with your server 
 
 /**
  * Function to emit an event to get orders by tableId
- * @param tableId - The ID of the table to fetch orders for
+ * @param barId - The ID of the table to fetch orders for
  * @param callback - A callback function to handle the response
  */
-export const getAllOrders = (callback: (response: any) => void): void => {
-  socket.emit("getAllOrders", (response: any) => {
-    callback(response); // Pass the response to the callback
-  });
-};
+export const getAllOrdersByBarId = (barId: number, callback: (response: any) => void): void => {
+    socket.emit("getOrdersByTableId", barId, (response: any) => {
+      callback(response); // Pass the response to the callback
+    });
+  };
 
 /**
  * Function to connect to the WebSocket server

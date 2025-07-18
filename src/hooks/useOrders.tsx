@@ -1,8 +1,7 @@
-import { connectSocket, getAllOrders } from "@/utils/socket/socket";
+import { connectSocket, getAllOrdersByBarId } from "@/utils/socket/socket";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 
-// Update the schema to match the object structure returned by the API
 const ordersResponseSchema = z.array(
   z.object({
     id: z.number(),
@@ -21,7 +20,7 @@ const ordersResponseSchema = z.array(
   })
 );
 
-const useOrders = () => {
+const useOrders = (barId: number) => {
   const [orders, setOrders] = useState<{
     id: number;
     tableId: number;
@@ -40,7 +39,7 @@ const useOrders = () => {
     connectSocket();
 
     const fetchOrders = () => {
-      getAllOrders((response) => {
+        getAllOrdersByBarId(barId, (response) => {
         try {
           const validatedOrders = ordersResponseSchema.parse(response); 
           setOrders(validatedOrders);

@@ -19,6 +19,7 @@ interface OrderListProps {
 }
 
 const OrderList: FC<OrderListProps> = ({ orders, barData }) => {
+  
   const ordersByTableId = orders.reduce<Record<number, (typeof orders)[0][]>>(
     (acc, order) => {
       if (!acc[order.tableId]) {

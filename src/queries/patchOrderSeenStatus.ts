@@ -12,11 +12,10 @@ export type UsePatchOrderSeenStatusSchema = {
 
 export const patchOrderSeenStatus = async (
   orderId: number,
-  accessToken?: string
+  accessToken: string
 ): Promise<UsePatchOrderSeenStatusSchema> => {
-  const headers = accessToken
-    ? { Authorization: `Bearer ${accessToken}` }
-    : undefined;
+
+  const headers = { Authorization: `Bearer ${accessToken}` }
 
   const response = await waiterServiceApi.patch(
     `/order/${orderId}/status`,

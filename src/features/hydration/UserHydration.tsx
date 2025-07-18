@@ -8,11 +8,21 @@ import { redirect } from "next/navigation";
 import React from "react";
 import { parseJwt } from "@/utils/misc/jwt/jwt";
 import { getBarData } from "@/queries/getBarData";
-import { patchOrderSeenStatus } from "@/queries/patchOrderSeenStatus";
+import { UserProvider } from "@/providers/user-provider";
 
 interface UserHydrationProps {
   children: React.ReactNode;
 }
+
+// Helper function to check if the token is expired
+const isTokenExpired = (token: string): boolean => {
+  const claims = parseJwt(token);
+  if (!claims || !claims.exp) {
+    return true; // Invalid token
+  }
+  const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+  return claims.exp < currentTime; // Token is expired if `exp` is less than the current time
+};
 
 export default async function UserHydration({ children }: UserHydrationProps) {
   const queryClient = new QueryClient();
@@ -24,19 +34,28 @@ export default async function UserHydration({ children }: UserHydrationProps) {
   }
 
   const accessToken = accessTokenCookie.value;
+
+  // Check if the token is expired
+  if (isTokenExpired(accessToken)) {
+    redirect("/login");
+  }
+
   const claims = parseJwt(accessToken);
   if (!claims) {
     redirect("/login");
   }
-
-  await queryClient.prefetchQuery({
-    queryKey: ["barData", claims.sub],
-    queryFn: () => getBarData(claims.sub, accessToken),
-  });
-
   const dehydratedState = dehydrate(queryClient);
 
   return (
-    <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>
+    <HydrationBoundary state={dehydratedState}>
+      <UserProvider
+        value={{
+          ...claims,
+          accessToken,
+        }}
+      >
+        {children}
+      </UserProvider>
+    </HydrationBoundary>
   );
 }
