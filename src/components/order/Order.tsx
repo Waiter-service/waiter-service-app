@@ -1,3 +1,4 @@
+import { CloseSvg } from "@/assets/icons";
 import { useUser } from "@/providers/user-provider";
 import { usePatchOrderSeenStatus } from "@/queries/hooks/usePatchOrderSeenStatus";
 import { cn } from "@/utils/misc/cn/cn";
@@ -35,7 +36,7 @@ const Order = ({
   };
 
   return (
-    <div className="space-y-4 w-full">
+    <div className="space-y-4 w-full relative">
       <div
         key={order.id}
         className={cn(
@@ -52,7 +53,9 @@ const Order = ({
             !isOpen ? "max-h-0 opacity-0" : "max-h-[500px] opacity-100"
           )}
         >
-          <p className="text-sm">Kommentar: {order.comment || ""}</p>
+          <p className={cn("text-sm", order.comment === null && "hidden")}>
+            Kommentar: {order.comment}
+          </p>
           <ul className="list-disc list-inside mt-2">
             {order.OrderArticle.map((article) => (
               <li key={article.articleId}>

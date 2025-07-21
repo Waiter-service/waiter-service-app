@@ -2,8 +2,8 @@ import { cn } from "@/utils/misc/cn/cn";
 import React, { ButtonHTMLAttributes } from "react";
 
 export const ButtonType: { [key in ButtonVariant]: string } = {
-  gray: "bg-neutral-700 rounded-full border-[1px] border-neutral-300",
-  darkGray: "bg-neutral-800 rounded-full border-[1px] border-neutral-500",
+  gray: "bg-neutral-700 rounded-full border-[1px] border-neutral-300 hover:bg-neutral-600",
+  darkGray: "bg-neutral-800 rounded-full border-[1px] border-neutral-500 hover:bg-neutral-700",
     green: "bg-[var(--brand-green)] text-white rounded-full text-[14px] px-[10px] py-[10px]  hover:bg-[var(--brand-green-light)]"
 };
 

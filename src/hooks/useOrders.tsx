@@ -53,7 +53,7 @@ const useOrders = (barId: number) => {
       () => {
         fetchOrders();
       },
-      orders.length === 0 ? 1 : 10000 
+      orders.length === 0 ? 5000 : 6000 
     );
 
     return () => clearInterval(interval);

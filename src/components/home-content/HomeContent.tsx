@@ -7,8 +7,8 @@ import { useUser } from "@/providers/user-provider";
 
 const HomeContent = () => {
   const { user } = useUser();
-  const orders = useOrders(user.sub);
   const { data: barData } = useBarData(user.sub, user.accessToken ?? "");
+  const orders = useOrders(user.sub);
 
   return (
     <div className="max-w-[1440px] ml-auto mr-auto w-[100vw] h-[100vh] flex p-[40px] gap-[20px]">
@@ -40,7 +40,7 @@ const HomeContent = () => {
           </div>
         ))}
       </div>
-      <OrderList barData={barData} orders={orders} />
+      {barData && <OrderList barData={barData} orders={orders} />}
     </div>
   );
 };

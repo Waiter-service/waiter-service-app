@@ -31,7 +31,7 @@ export default function Login() {
   };
 
   return (
-    <div className="w-[100vw] h-[100vh] flex items-center justify-center">
+    <div className="w-[100%] h-[100vh] flex items-center justify-center">
       <div className="flex flex-col items-center">
         <h1 className="text-[45px]">Digital Waiter</h1>
         <p className="text-[20px]">Prijavite se za nastavak</p>

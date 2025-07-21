@@ -1,6 +1,6 @@
 import { io, Socket } from "socket.io-client";
 
-const socket: Socket = io("http://localhost:3000"); // Replace with your server URL
+const socket: Socket = io(process.env.NEXT_PUBLIC_WEB_SOCKET_URL); // Replace with your server URL
 
 /**
  * Function to emit an event to get orders by tableId
@@ -8,7 +8,7 @@ const socket: Socket = io("http://localhost:3000"); // Replace with your server 
  * @param callback - A callback function to handle the response
  */
 export const getAllOrdersByBarId = (barId: number, callback: (response: any) => void): void => {
-    socket.emit("getOrdersByTableId", barId, (response: any) => {
+    socket.emit("getAllOrdersByBarId", barId, (response: any) => {
       callback(response); // Pass the response to the callback
     });
   };
