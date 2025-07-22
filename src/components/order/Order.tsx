@@ -1,4 +1,3 @@
-import { CloseSvg } from "@/assets/icons";
 import { useUser } from "@/providers/user-provider";
 import { usePatchOrderSeenStatus } from "@/queries/hooks/usePatchOrderSeenStatus";
 import { cn } from "@/utils/misc/cn/cn";

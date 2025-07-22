@@ -14,14 +14,13 @@ interface UserHydrationProps {
   children: React.ReactNode;
 }
 
-// Helper function to check if the token is expired
 const isTokenExpired = (token: string): boolean => {
   const claims = parseJwt(token);
   if (!claims || !claims.exp) {
-    return true; // Invalid token
+    return true; 
   }
-  const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-  return claims.exp < currentTime; // Token is expired if `exp` is less than the current time
+  const currentTime = Math.floor(Date.now() / 1000); 
+  return claims.exp < currentTime; 
 };
 
 export default async function UserHydration({ children }: UserHydrationProps) {
