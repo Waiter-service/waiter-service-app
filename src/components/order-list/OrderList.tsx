@@ -55,7 +55,7 @@ const OrderList: FC<OrderListProps> = ({ orders, barData }) => {
   const ordersArray = Object.values(ordersByTableId);
 
   return (
-    <div className="flex flex-col items-center justify-start h-full overflow-y-scroll w-[30%] ">
+    <div className="flex flex-col items-center justify-start h-full overflow-y-scroll sm:w-[30%] hide-scrollbar">
       {ordersArray.length > 0 ? (
         <div className="space-y-4 w-full ">
           {ordersArray.map((order) => (

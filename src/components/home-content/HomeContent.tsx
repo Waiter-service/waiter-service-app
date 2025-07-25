@@ -11,8 +11,8 @@ const HomeContent = () => {
   const orders = useOrders(user.sub);
 
   return (
-    <div className="max-w-[1440px] ml-auto mr-auto w-[100vw] h-[100vh] flex p-[40px] gap-[20px]">
-      <div className="w-[70%] bg-neutral-900 rounded-2xl relative">
+    <div className="max-w-[1440px] ml-auto mr-auto w-[100vw] h-[100vh] flex flex-col sm:flex-row p-[40px] gap-[20px]">
+      <div className="w-full sm:w-[70%] h-[100%] bg-neutral-900 rounded-2xl relative">
         {barData?.tables.map((table) => (
           <div
             key={table.id}

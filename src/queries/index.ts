@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const waiterServiceApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_WAITER_API_URL, 
+  baseURL: 'https://waiter-backend-production.up.railway.app/api', 
   withCredentials: true,
   timeout: 5000,    
 });

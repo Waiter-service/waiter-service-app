@@ -21,8 +21,8 @@ export default function Login() {
     try {
       const data = await mutateAsync(user);
       console.log("Access Token:", data.access_token);
+      localStorage.setItem("access_token", data.access_token);
 
-      document.cookie = `access_token=${data.access_token}; path=/;`;
 
       router.push("/");
     } catch (error) {
