@@ -12,7 +12,7 @@ const HomeContent = () => {
 
   return (
     <div className="max-w-[1440px] ml-auto mr-auto w-[100vw] h-[100vh] flex flex-col sm:flex-row p-[40px] gap-[20px]">
-      <div className="w-full sm:w-[70%] h-[100%] bg-neutral-900 rounded-2xl relative">
+      <div className="w-full sm:w-[70%] h-[200%] sm:h-[100%] bg-neutral-900 rounded-2xl relative">
         {barData?.tables.map((table) => (
           <div
             key={table.id}
@@ -34,11 +34,16 @@ const HomeContent = () => {
               aspectRatio: "1 / 1",
             }}
           >
-            <div className="text-black text-4xl text-center">
+            <div className="text-black text-[70%] sm:text-[130%] text-center">
               {table.number}
             </div>
           </div>
         ))}
+        <div className="w-[20%] h-[1%] bg-neutral-800 text-[20px] absolute bottom-[54%] right-0 "></div>
+        <div className="w-[70%] h-[1%] bg-neutral-800 text-[20px] absolute bottom-[54%] left-0 "></div>
+        <div className="w-[30%] h-[30%] bg-neutral-700 text-[20px] absolute bottom-0 right-[15%] text-center flex items-center justify-center ">
+          Šank
+        </div>
       </div>
       {barData && <OrderList barData={barData} orders={orders} />}
     </div>
