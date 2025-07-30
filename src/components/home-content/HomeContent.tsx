@@ -41,7 +41,11 @@ const HomeContent = () => {
         ))}
         <div className="w-[20%] h-[1%] bg-neutral-800 text-[20px] absolute bottom-[54%] right-0 "></div>
         <div className="w-[70%] h-[1%] bg-neutral-800 text-[20px] absolute bottom-[54%] left-0 "></div>
-        <div className="w-[30%] h-[30%] bg-neutral-700 text-[20px] absolute bottom-0 right-[15%] text-center flex items-center justify-center ">
+        <div className="w-[12%] h-[7px] bg-neutral-800 text-[20px] absolute top-[24%] left-0 "></div>
+        <div className="w-[36%] h-[7px] bg-neutral-800 text-[20px] absolute top-[24%] left-[17%] "></div>
+        <div className="w-[7px] h-[24.5%] bg-neutral-800 text-[20px] absolute top-0 left-[68%] "></div>
+        <div className="w-[9.5%] h-[7px] bg-neutral-800 text-[20px] absolute top-[24%] left-[59%] "></div>
+        <div className="w-[30%] h-[30%] bg-neutral-800 rounded-t-2xl text-[20px] absolute bottom-0 right-[15%] text-center flex items-center justify-center ">
           Šank
         </div>
       </div>
