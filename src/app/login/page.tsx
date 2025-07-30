@@ -20,7 +20,6 @@ export default function Login() {
 
     try {
       const data = await mutateAsync(user);
-      console.log("Access Token:", data.access_token);
       localStorage.setItem("access_token", data.access_token);
 
 
