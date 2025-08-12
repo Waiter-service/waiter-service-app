@@ -48,6 +48,9 @@ const HomeContent = () => {
         <div className="w-[30%] h-[30%] bg-neutral-800 rounded-t-2xl text-[20px] absolute bottom-0 right-[15%] text-center flex items-center justify-center ">
           Šank
         </div>
+        <div className="text-[20px] absolute bottom-[70%] left-[30%] text-center flex items-center justify-center ">
+          Bašta
+        </div>
       </div>
       {barData && <OrderList barData={barData} orders={orders} />}
     </div>
